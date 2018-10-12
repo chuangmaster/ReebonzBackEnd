@@ -5,7 +5,15 @@ VisualStudioVersion = 15.0.27428.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reebonz", "Reebonz\Reebonz.csproj", "{2D3C8FBB-5A7E-4129-BE94-C91C005066F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{A8EFCD7B-C49E-4E42-8B6C-7A4AF46BE123}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reebonz.Service", "Reebonz.Service\Reebonz.Service.csproj", "{891E094A-FC7C-4D2D-833C-C4A7BD081782}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reebonz.Dapper.Repository", "Reebonz.Dapper.Repository\Reebonz.Dapper.Repository.csproj", "{94126126-6A35-4900-B076-030D097766E2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Application", "1.Application", "{00176284-1FB5-4EEF-A0A3-26871A549F93}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Repository", "3.Repository", "{85838B6B-BBD5-4B75-A75F-B67A8FCBF135}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Service", "2.Service", "{6AF9EA7D-0161-4ABF-A479-931DD7D8F998}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,13 +25,22 @@ Global
 		{2D3C8FBB-5A7E-4129-BE94-C91C005066F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D3C8FBB-5A7E-4129-BE94-C91C005066F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D3C8FBB-5A7E-4129-BE94-C91C005066F9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8EFCD7B-C49E-4E42-8B6C-7A4AF46BE123}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8EFCD7B-C49E-4E42-8B6C-7A4AF46BE123}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8EFCD7B-C49E-4E42-8B6C-7A4AF46BE123}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8EFCD7B-C49E-4E42-8B6C-7A4AF46BE123}.Release|Any CPU.Build.0 = Release|Any CPU
+		{891E094A-FC7C-4D2D-833C-C4A7BD081782}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{891E094A-FC7C-4D2D-833C-C4A7BD081782}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{891E094A-FC7C-4D2D-833C-C4A7BD081782}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{891E094A-FC7C-4D2D-833C-C4A7BD081782}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94126126-6A35-4900-B076-030D097766E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94126126-6A35-4900-B076-030D097766E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94126126-6A35-4900-B076-030D097766E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94126126-6A35-4900-B076-030D097766E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2D3C8FBB-5A7E-4129-BE94-C91C005066F9} = {00176284-1FB5-4EEF-A0A3-26871A549F93}
+		{891E094A-FC7C-4D2D-833C-C4A7BD081782} = {6AF9EA7D-0161-4ABF-A479-931DD7D8F998}
+		{94126126-6A35-4900-B076-030D097766E2} = {85838B6B-BBD5-4B75-A75F-B67A8FCBF135}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFCF5A47-E7C1-4A62-BBDC-0002BF584986}
