@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Reebonz.Dapper.Repository.Models
 {
     /// <summary>
-    /// class RefundStatusModel
+    /// class RefundRecordModel
     /// </summary>
-    public class RefundStatusModel
+    public class RefundRecordModel
     {
 
         public long ID { get; set; }
