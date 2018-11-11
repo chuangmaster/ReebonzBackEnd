@@ -64,6 +64,11 @@ namespace Reebonz.Dapper.Repository.Models
         /// <summary>
         /// 退貨聯絡資訊
         /// </summary>
-        public RefundContactModel RefundContactModel { get; set; }
+        public RefundContactModel RefundContact { get; set; }
+
+        /// <summary>
+        /// 退貨物流資訊
+        /// </summary>
+        public RefundLogisticsRecordModel RefundLogisticsRecord { get; set; }
     }
 }

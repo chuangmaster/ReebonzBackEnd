@@ -47,7 +47,7 @@
     <Compile Include="Models\RefundContactModel.cs" />
     <Compile Include="Models\RefundModel.cs" />
     <Compile Include="Models\RefundSingaporeModel.cs" />
-    <Compile Include="Models\RefundRecordModel.cs" />
+    <Compile Include="Models\RefundLogisticsRecordModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Parameters\RefundAddRptParameter.cs" />
     <Compile Include="Parameters\RefundUpdateRptParameter.cs" />

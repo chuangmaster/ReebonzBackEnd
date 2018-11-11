@@ -19,10 +19,18 @@ namespace Reebonz.Dapper.Repository.Interfaces
         /// <returns></returns>
         List<RefundModel> Get();
 
-
+        /// <summary>
+        /// 新增退貨
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         int Add(RefundAddRptParameter parameter);
 
-        bool Update()
+        /// <summary>
+        /// 更新退貨
+        /// </summary>
+        /// <returns></returns>
+        bool Update();
 
     }
 }
