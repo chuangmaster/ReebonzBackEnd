@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Reebonz.Service.DTO.Parameters
 {
 
-    public class RefundAddDTOParameter
+    public class RefundAddParameterDTO
     {
     }
 }

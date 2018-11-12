@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\Parameters\RefundAddDTOParameter.cs" />
+    <Compile Include="DTO\Parameters\RefundAddParameterDTO.cs" />
     <Compile Include="DTO\RefundContactDTO.cs" />
     <Compile Include="DTO\RefundDTO.cs" />
     <Compile Include="DTO\RefundLogisticsRecordDTO.cs" />

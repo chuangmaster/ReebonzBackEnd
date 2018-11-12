@@ -1,4 +1,5 @@
 ﻿using Reebonz.Service.DTO;
+using Reebonz.Service.DTO.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace Reebonz.Interfaces.Service
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        int Add(RefundAddDTOParameter parameter);
+        int Add(RefundAddParameterDTO parameter);
 
         /// <summary>
         /// 更新退貨

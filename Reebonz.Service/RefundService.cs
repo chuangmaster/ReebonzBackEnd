@@ -1,5 +1,6 @@
 ﻿using Reebonz.Interfaces.Service;
 using Reebonz.Service.DTO;
+using Reebonz.Service.DTO.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Reebonz.Service
     /// </summary>
     public class RefundService : IRefundService
     {
-        public int Add(RefundAddDTOParameter parameter)
+        public int Add(RefundAddParameterDTO parameter)
         {
             throw new NotImplementedException();
         }
