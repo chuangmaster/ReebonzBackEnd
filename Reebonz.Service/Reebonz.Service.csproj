@@ -48,6 +48,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RefundService.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Reebonz.Dapper.Repository\Reebonz.Dapper.Repository.csproj">
+      <Project>{94126126-6A35-4900-B076-030D097766E2}</Project>
+      <Name>Reebonz.Dapper.Repository</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

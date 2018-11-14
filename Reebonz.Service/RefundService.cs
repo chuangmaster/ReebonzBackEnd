@@ -1,5 +1,7 @@
-﻿using Reebonz.Interfaces.Service;
+﻿using Reebonz.Dapper.Repository.Interfaces;
+using Reebonz.Interfaces.Service;
 using Reebonz.Service.DTO;
+using Reebonz.Service.DTO.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +15,15 @@ namespace Reebonz.Service
     /// </summary>
     public class RefundService : IRefundService
     {
+        IRefundRepository _RefundRepository;
+        public RefundService(IRefundRepository refundRepository)
+        {
+            _RefundRepository = refundRepository;
+        }
         public int Add(RefundAddDTOParameter parameter)
         {
-            throw new NotImplementedException();
+            _RefundRepository.Get();
+            return 1;
         }
 
         public List<RefundDTO> Get()
