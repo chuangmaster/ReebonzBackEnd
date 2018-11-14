@@ -1,8 +1,10 @@
-﻿using Reebonz.Dapper.Repository.Interfaces;
+﻿using Dapper;
+using Reebonz.Dapper.Repository.Interfaces;
 using Reebonz.Dapper.Repository.Models;
 using Reebonz.Dapper.Repository.Parameters;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,10 +21,20 @@ namespace Reebonz.Dapper.Repository
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 取得所有退款資料
+        /// </summary>
+        /// <returns></returns>
         public List<RefundModel> Get()
         {
+            using (var con = new SqlConnection())
+            {
+                var sql = new StringBuilder();
+                con.Query<RefundModel>(sql.ToString());
+            }
             throw new NotImplementedException();
         }
+
 
         public bool Update()
         {
