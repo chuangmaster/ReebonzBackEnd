@@ -24,7 +24,7 @@ namespace Reebonz.Interfaces.Service
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        int Add(RefundAddDTOParameter parameter);
+        int Add(RefundAddParameterDTO parameter);
 
         /// <summary>
         /// 更新退貨

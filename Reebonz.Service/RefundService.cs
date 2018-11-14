@@ -20,7 +20,7 @@ namespace Reebonz.Service
         {
             _RefundRepository = refundRepository;
         }
-        public int Add(RefundAddDTOParameter parameter)
+        public int Add(RefundAddParameterDTO parameter)
         {
             _RefundRepository.Get();
             return 1;

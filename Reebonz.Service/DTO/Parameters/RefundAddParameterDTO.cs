@@ -9,7 +9,7 @@ namespace Reebonz.Service.DTO.Parameters
     /// <summary>
     /// class RefundAddDTOParameter
     /// </summary>
-    public class RefundAddDTOParameter
+    public class RefundAddParameterDTO
     {
         /// <summary>
         /// 通知物流時間
