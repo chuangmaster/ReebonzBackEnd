@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Reebonz.Interfaces.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,8 +9,14 @@ namespace Reebonz.Controllers
 {
     public class HomeController : Controller
     {
+        IRefundService _RefundService;
+        public HomeController(IRefundService refundService)
+        {
+            _RefundService = refundService;
+        }
         public ActionResult Index()
         {
+            _RefundService.Get();
             return View();
         }
 

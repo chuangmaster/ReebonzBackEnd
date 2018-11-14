@@ -242,6 +242,16 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Reebonz.Dapper.Repository\Reebonz.Dapper.Repository.csproj">
+      <Project>{94126126-6A35-4900-B076-030D097766E2}</Project>
+      <Name>Reebonz.Dapper.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Reebonz.Service\Reebonz.Service.csproj">
+      <Project>{891E094A-FC7C-4D2D-833C-C4A7BD081782}</Project>
+      <Name>Reebonz.Service</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

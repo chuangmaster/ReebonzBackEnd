@@ -1,3 +1,7 @@
+using Reebonz.Dapper.Repository;
+using Reebonz.Dapper.Repository.Interfaces;
+using Reebonz.Interfaces.Service;
+using Reebonz.Service;
 using System;
 
 using Unity;
@@ -40,8 +44,12 @@ namespace Reebonz
             // Make sure to add a Unity.Configuration to the using statements.
             // container.LoadConfiguration();
 
-            // TODO: Register your type's mappings here.
-            // container.RegisterType<IProductRepository, ProductRepository>();
+            //Register Service
+            container.RegisterType<IRefundService, RefundService>();
+
+            //Register Repository
+            container.RegisterType<IRefundRepository, RefundRepository>();
+
         }
     }
 }
