@@ -30,6 +30,9 @@ namespace Reebonz.Dapper.Repository
             using (var con = new SqlConnection())
             {
                 var sql = new StringBuilder();
+                sql.AppendLine("SELECT * FRM Refund");
+                sql.AppendLine("SELECT * FRM Refund");
+                con.ExecuteReader(sql.ToString());
                 con.Query<RefundModel>(sql.ToString());
             }
             throw new NotImplementedException();

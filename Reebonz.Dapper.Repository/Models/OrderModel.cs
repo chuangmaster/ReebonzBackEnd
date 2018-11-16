@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Reebonz.Dapper.Repository.Models
 {
     /// <summary>
-    /// class RefundLogisticsRecordModel
+    /// class OrderModel
     /// </summary>
-    public class RefundLogisticsRecordModel
+    public class OrderModel
     {
 
         /// <summary>
@@ -18,19 +18,24 @@ namespace Reebonz.Dapper.Repository.Models
         public long ID { get; set; }
 
         /// <summary>
-        /// Refund ID
+        /// 訂單編號
         /// </summary>
-        public long RefundID { get; set; }
+        public string TransactionID { get; set; }
 
         /// <summary>
-        /// 公司收件日期
+        /// 編輯者ID
         /// </summary>
-        public DateTime ReceiveDate { get; set; }
+        public Guid UserID { get; set; }
 
         /// <summary>
-        /// 追蹤碼
+        /// 修改時間
         /// </summary>
-        public string TrackNumber { get; set; }
+        public DateTime ModifiedTime { get; set; }
+
+        /// <summary>
+        /// 資料存取狀態
+        /// </summary>
+        public bool Enable { get; set; }
 
         /// <summary>
         /// 寫入時間

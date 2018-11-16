@@ -44,10 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IRefundRepository.cs" />
-    <Compile Include="Models\RefundContactModel.cs" />
+    <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\RefundModel.cs" />
     <Compile Include="Models\RefundSingaporeModel.cs" />
-    <Compile Include="Models\RefundLogisticsRecordModel.cs" />
+    <Compile Include="Models\RefundDetailModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Parameters\RefundAddRptParameter.cs" />
     <Compile Include="Parameters\RefundUpdateRptParameter.cs" />
@@ -57,6 +57,5 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
