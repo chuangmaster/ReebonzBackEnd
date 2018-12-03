@@ -12,9 +12,13 @@ namespace Reebonz.Dapper.Repository.Parameters
     public class RefundAddRptParameter
     {
         /// <summary>
+        /// 訂單ID
+        /// </summary>
+        public long OrderID { get; set; }
+        /// <summary>
         /// 通知物流時間
         /// </summary>
-        public DateTime ShipmentDate { get; set; }
+        public DateTime? ShipmentDate { get; set; }
 
         /// <summary>
         /// 客戶要求取件時間
@@ -34,7 +38,7 @@ namespace Reebonz.Dapper.Repository.Parameters
         /// <summary>
         /// 資料編輯者ID
         /// </summary>
-        public int UNo { get; set; }
+        public Guid? UserID { get; set; }
 
         /// <summary>
         /// Case Number
@@ -50,5 +54,25 @@ namespace Reebonz.Dapper.Repository.Parameters
         /// 資料修改時間
         /// </summary>
         public DateTime ModifiedTime { get; set; }
+
+        /// <summary>
+        /// 資料存取狀態
+        /// </summary>
+        public bool Enable { get; set; }
+
+        /// <summary>
+        /// 被取件人名稱
+        /// </summary>
+        public string SenderName { get; set; }
+
+        /// <summary>
+        /// 被取件人地址
+        /// </summary>
+        public string SenderAddr { get; set; }
+
+        /// <summary>
+        /// 被取件人電話
+        /// </summary>
+        public string SenderPhone { get; set; }
     }
 }

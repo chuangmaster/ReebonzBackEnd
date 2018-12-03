@@ -7,35 +7,35 @@ using System.Threading.Tasks;
 namespace Reebonz.Dapper.Repository.Models
 {
     /// <summary>
-    /// class RefundSingaporeModel
+    /// class RefundDetailModel
     /// </summary>
-    public class RefundSingaporeModel
+    public class RefundDetailModel
     {
+
         /// <summary>
         /// ID
         /// </summary>
         public long ID { get; set; }
 
         /// <summary>
-        /// RefundRecordID
+        /// Refund ID
         /// </summary>
-        public int RefundRecordID { get; set; }
+        public long RefundID { get; set; }
 
         /// <summary>
-        /// 寫入時間
+        /// 公司收件日期
         /// </summary>
-        public DateTime DateIn { get; set; }
+        public DateTime ReceiveDate { get; set; }
 
         /// <summary>
-        /// 裝箱編號
+        /// 退款金額
         /// </summary>
-        public int PackageNumber { get; set; }
+        public decimal Price { get; set; }
 
         /// <summary>
-        /// Invocie時間(裝箱時間)
+        /// 追蹤碼
         /// </summary>
-        public DateTime InvoiceDateTime { get; set; }
-
+        public string TrackNumber { get; set; }
 
     }
 }

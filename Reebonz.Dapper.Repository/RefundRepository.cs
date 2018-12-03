@@ -16,9 +16,71 @@ namespace Reebonz.Dapper.Repository
     /// </summary>
     public class RefundRepository : IRefundRepository
     {
-        public int Add(RefundAddRptParameter parameter)
+        /// <summary>
+        /// 新增退貨
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        public bool Add(RefundAddRptParameter parameter)
         {
-            throw new NotImplementedException();
+            int Result = 0;
+            using (var conn = new SqlConnection())
+            {
+                var sqlParameters = new DynamicParameters();
+                var sql = new StringBuilder();
+                sql.AppendLine(@"INSERT INTO Refund");
+                sql.AppendLine(@"           ([OrderID]");
+                sql.AppendLine(@"           ,[SenderName]");
+                sql.AppendLine(@"           ,[SenderAddr]");
+                sql.AppendLine(@"           ,[SenderPhone]");
+                sql.AppendLine(@"           ,[AskDate]");
+
+
+                sqlParameters.Add("OrderID", parameter.OrderID);
+                sqlParameters.Add("SenderName", parameter.SenderName);
+                sqlParameters.Add("SenderAddr", parameter.SenderAddr);
+                sqlParameters.Add("SenderPhone", parameter.SenderPhone);
+                sqlParameters.Add("AskDate", parameter.AskDate);
+
+                var sqlParaString = new List<string>();
+                if (!string.IsNullOrEmpty(parameter.CaseNum))
+                {
+                    sqlParameters.Add("CaseNum", parameter.CaseNum);
+                    sqlParaString.Add("CaseNum");
+                }
+
+                if (!string.IsNullOrEmpty(parameter.Memo))
+                {
+                    sqlParameters.Add("Memo", parameter.Memo);
+                    sqlParaString.Add("Memo");
+                }
+
+                if (parameter.ShipmentDate.HasValue)
+                {
+                    sqlParameters.Add("ShipmentDate", parameter.ShipmentDate.Value);
+                    sqlParaString.Add("ShipmentDate");
+                }
+
+                if (parameter.UserID.HasValue)
+                {
+                    sqlParameters.Add("UserID", parameter.UserID.Value);
+                    sqlParaString.Add("UserID");
+                }
+
+
+                sql.AppendLine(string.Join(",", sqlParaString.Select(x => $"{x} = @{x}")));
+
+                sql.AppendLine(@") ");
+
+                sql.AppendLine(@"VALUES (@OrderID, @Memo, @CaseNum, @SenderName, ");
+                sql.AppendLine(@"@SenderAddr, @SenderPhone, @AskDate, @ShipmentDate, @UserID,");
+                sql.AppendLine(string.Join(",", sqlParaString.Select(x => $" @{x}")));
+                sql.AppendLine(")");
+
+                Result = conn.Execute(sql.ToString(), sqlParameters);
+
+                return Result > 0;
+            }
         }
 
         /// <summary>
@@ -27,18 +89,39 @@ namespace Reebonz.Dapper.Repository
         /// <returns></returns>
         public List<RefundModel> Get()
         {
-            using (var con = new SqlConnection())
+            List<RefundModel> Result = null;
+            using (var conn = new SqlConnection())
             {
                 var sql = new StringBuilder();
-                con.Query<RefundModel>(sql.ToString());
+                sql.AppendLine(@"SELECT * FROM Refund");
+                sql.AppendLine(@"SELECT * FROM RefundDetail");
+
+                var DataSet = conn.QueryMultiple(sql.ToString());
+
+                Result = DataSet.Read<RefundModel>().ToList();
+
+                if (Result != null && Result.Count > 0)
+                {
+                    var details = DataSet.Read<RefundDetailModel>().ToList();
+                    Result.ForEach(x =>
+                    {
+                        x.RefundDetailCollection = details.FindAll(y => y.RefundID == x.ID);
+                    });
+                }
+
             }
-            throw new NotImplementedException();
+            return Result;
         }
 
 
         public bool Update()
         {
             throw new NotImplementedException();
+        }
+
+        public RefundRepository()
+        {
+
         }
     }
 }
