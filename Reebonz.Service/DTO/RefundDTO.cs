@@ -62,14 +62,28 @@ namespace Reebonz.Service.DTO
         public bool Enable { get; set; }
 
         /// <summary>
-        /// 退貨聯絡資訊
+        /// 被取件人名稱
         /// </summary>
-        public RefundContactDTO RefundContactModel { get; set; }
+        public string SenderName { get; set; }
 
         /// <summary>
-        /// 退貨物流資訊
+        /// 被取件人地址
         /// </summary>
-        public RefundLogisticsRecordDTO RefundLogisticsRecord { get; set; }
+        public string SenderAddr { get; set; }
 
+        /// <summary>
+        /// 被取件人電話
+        /// </summary>
+        public string SenderPhone { get; set; }
+
+        /// <summary>
+        /// 退貨明細
+        /// </summary>
+        public List<RefundDetailDTO> RefundDetailCollection { get; set; }
+
+        public RefundDTO()
+        {
+            this.RefundDetailCollection = new List<RefundDetailDTO>();
+        }
     }
 }

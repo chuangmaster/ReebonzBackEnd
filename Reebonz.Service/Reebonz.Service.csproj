@@ -44,9 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\Parameters\RefundAddParameterDTO.cs" />
-    <Compile Include="DTO\RefundContactDTO.cs" />
-    <Compile Include="DTO\RefundDTO.cs" />
+    <Compile Include="DTO\RefundDetailDTO.cs" />
     <Compile Include="DTO\RefundLogisticsRecordDTO.cs" />
+    <Compile Include="DTO\RefundDTO.cs" />
+    <Compile Include="DTO\RefundSingaporeRecordDTO.cs" />
+    <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Interfaces\IRefundService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RefundService.cs" />
