@@ -16,6 +16,8 @@ namespace Reebonz.Dapper.Repository
     /// </summary>
     public class RefundRepository : IRefundRepository
     {
+        private ISQLConnectionProvider _Provider { get; set; }
+
         /// <summary>
         /// 新增退貨
         /// </summary>
@@ -24,7 +26,7 @@ namespace Reebonz.Dapper.Repository
         public bool Add(RefundAddRptParameter parameter)
         {
             int Result = 0;
-            using (var conn = new SqlConnection())
+            using (var conn = _Provider.GetConnection())
             {
                 var sqlParameters = new DynamicParameters();
                 var sql = new StringBuilder();
@@ -90,7 +92,7 @@ namespace Reebonz.Dapper.Repository
         public List<RefundModel> Get()
         {
             List<RefundModel> Result = null;
-            using (var conn = new SqlConnection())
+            using (var conn = _Provider.GetConnection())
             {
                 var sql = new StringBuilder();
                 sql.AppendLine(@"SELECT * FROM Refund");
@@ -119,9 +121,9 @@ namespace Reebonz.Dapper.Repository
             throw new NotImplementedException();
         }
 
-        public RefundRepository()
+        public RefundRepository(ISQLConnectionProvider connectionProvider)
         {
-
+            _Provider = connectionProvider;
         }
     }
 }

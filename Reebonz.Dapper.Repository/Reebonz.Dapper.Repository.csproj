@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IRefundRepository.cs" />
+    <Compile Include="Interfaces\ISQLConnectionProvider.cs" />
     <Compile Include="Models\RefundContactModel.cs" />
     <Compile Include="Models\RefundModel.cs" />
     <Compile Include="Models\RefundSingaporeRecordModel.cs" />
