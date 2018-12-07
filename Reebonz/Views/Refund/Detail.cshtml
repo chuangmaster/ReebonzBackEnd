@@ -1,0 +1,26 @@
+﻿@model RefundDTO
+@{
+    ViewBag.Title = "Detail";
+}
+
+<h2>Detail</h2>
+<div class="container">
+    <h3>訂單 @Model.TransationID 明細</h3>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <td>SKU(商品編號)</td>
+                <td>單價</td>
+                <td></td>
+
+            </tr>
+        </thead>
+        @foreach (var item in Model.RefundDetailCollection)
+        {
+            <tr>
+                <td></td>
+            </tr>
+        }
+
+    </table>
+</div>

@@ -1,0 +1,99 @@
+﻿@model List<RefundDTO>
+@{
+    ViewBag.Title = "退貨列表";
+}
+
+<h2>退貨列表</h2>
+
+<div class="container">
+    <div class="row d-flex justify-content-end">
+        <div class="col-sm-8 col-md-7 col-lg-7 mt-3">
+            <div class="input-group">
+                <button class="btn btn-info" data-toggle="modal" data-target="#addModal">申請退貨</button>
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-5 col-lg-5 mt-3">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Find By Order ID and Name ...">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <table class="table table-hover table-responsive mt-3">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>訂單編號</th>
+                        <th>需要通知黑貓時間</th>
+                        <th>客戶要求取件時間</th>
+                        <th>備註</th>
+                        <th>收/取件人資訊</th>
+                        <th>經辦人</th>
+                        <th>編輯</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ID</td>
+                            <td>@item.TransationID</td>
+                            <td>@item.ShipmentDate</td>
+                            <td>@item.AskDate</td>
+                            <td>@item.Memo</td>
+                            <td>
+                                <i class="fas fa-user"></i>: @item.SenderName<br>
+                                <i class="fas fa-home"></i>: @item.SenderAddr<br>
+                                <i class="fas fa-mobile-alt"></i>: @item.SenderPhone<br>
+                            </td>
+                            <td>@item.UserID</td>
+                            <td>
+                                <button class="btn btn-primary">明細</button>
+                                <button class="btn btn-danger">刪除資料</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div class="modal fade" id="addModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">退貨申請</h5>
+                    <button class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="transationID">訂單編號</label>
+                            <input class="form-control" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="SKU">退貨SKU</label>
+                            <div class="input-group">
+                                <input class="form-control" type="text">
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-dismiss="modal">Submit</button>
+                    @*<button class="btn btn-secondary" data-dismiss="modal">Close</button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
