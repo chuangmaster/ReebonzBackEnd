@@ -45,11 +45,16 @@
   <ItemGroup>
     <Compile Include="Interfaces\IRefundRepository.cs" />
     <Compile Include="Interfaces\ISQLConnectionProvider.cs" />
+    <Compile Include="Interfaces\IOrderRepository.cs" />
+    <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\RefundContactModel.cs" />
     <Compile Include="Models\RefundModel.cs" />
     <Compile Include="Models\RefundSingaporeRecordModel.cs" />
     <Compile Include="Models\RefundDetailModel.cs" />
     <Compile Include="Models\UserModel.cs" />
+    <Compile Include="OrderRepository.cs" />
+    <Compile Include="Parameters\OrderAddRptParameter.cs" />
+    <Compile Include="Parameters\OrderDetailAddRptParameter.cs" />
     <Compile Include="Parameters\RefundAddRptParameter.cs" />
     <Compile Include="Parameters\RefundUpdateRptParameter.cs" />
     <Compile Include="RefundRepository.cs" />
