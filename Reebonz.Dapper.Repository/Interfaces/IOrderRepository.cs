@@ -31,8 +31,8 @@ namespace Reebonz.Dapper.Repository.Interfaces
         /// <summary>
         /// 新增訂單明細
         /// </summary>
-        /// <param name="parameter"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        bool AddDetail(OrderDetailAddRptParameter parameter);
+        bool AddDetail(List<OrderDetailBaseAddRptParameter> parameters);
     }
 }

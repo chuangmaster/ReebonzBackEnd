@@ -60,7 +60,6 @@ namespace Reebonz.Dapper.Repository
                     }
                     else
                     {
-
                         trans.Rollback();
                     }
                     return PredictEffectRow == PhysicallyEffectRow;
@@ -71,23 +70,34 @@ namespace Reebonz.Dapper.Repository
         /// <summary>
         /// 新增訂單明細
         /// </summary>
-        /// <param name="parameter"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        public bool AddDetail(OrderDetailAddRptParameter parameter)
+        public bool AddDetail(List<OrderDetailBaseAddRptParameter> parameters)
         {
             var Result = false;
             using (var conn = _Provider.GetConnection())
             {
-                var sb = new StringBuilder();
-                sb.AppendLine(@"INSERT INTO [OrderDetail] (OrderID, SKU, Amount, Price) VALUES(@OrderID, @SKU, @Amount, @Price);");
-                var sqlParameters = new DynamicParameters();
-                sqlParameters.Add("OrderID", parameter.OrderID);
-                sqlParameters.Add("SKU", parameter.SKU);
-                sqlParameters.Add("Amount", parameter.Amount);
-                sqlParameters.Add("Price", parameter.Price);
-
-                Result = conn.Execute(sb.ToString(), sqlParameters) > 0;
-
+                conn.Open();
+                using (var trans = conn.BeginTransaction())
+                {
+                    var sb = new StringBuilder();
+                    var sqlParameters = new DynamicParameters();
+                    int counter = 1;
+                    foreach (var item in parameters)
+                    {
+                        sb.AppendLine($"INSERT INTO [OrderDetail] (OrderID, SKU, Amount, Price) VALUES(@OrderID{counter}, @SKU{counter}, @Amount{counter}, @Price{counter});");
+                        sqlParameters.Add($"OrderID{counter}", item.OrderID);
+                        sqlParameters.Add($"SKU{counter}", item.SKU);
+                        sqlParameters.Add($"Amount{counter}", item.Amount);
+                        sqlParameters.Add($"Price{counter}", item.Price);
+                        counter++;
+                    }
+                    Result = conn.Execute(sb.ToString(), sqlParameters) > 0;
+                    if (Result)
+                        trans.Commit();
+                    else
+                        trans.Rollback();
+                }
                 return Result;
             }
         }

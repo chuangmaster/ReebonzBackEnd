@@ -54,6 +54,7 @@
     <Compile Include="Models\RefundDetailModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="OrderRepository.cs" />
+    <Compile Include="Parameters\OrderDetailBaseAddRptParameter.cs" />
     <Compile Include="Parameters\OrderAddRptParameter.cs" />
     <Compile Include="Parameters\OrderDetailAddRptParameter.cs" />
     <Compile Include="Parameters\RefundAddRptParameter.cs" />

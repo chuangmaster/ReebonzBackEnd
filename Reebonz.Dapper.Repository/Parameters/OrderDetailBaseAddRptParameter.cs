@@ -7,10 +7,14 @@ using System.Threading.Tasks;
 namespace Reebonz.Dapper.Repository.Parameters
 {
     /// <summary>
-    /// class OrderDetailAddRptParameter
+    /// class OrderDetailBaseAddRptParameter
     /// </summary>
-    public class OrderDetailAddRptParameter
+    public class OrderDetailBaseAddRptParameter
     {
+        /// <summary>
+        /// Order ID
+        /// </summary>
+        public long OrderID { get; set; }
         /// <summary>
         /// SKU
         /// </summary>
@@ -25,6 +29,5 @@ namespace Reebonz.Dapper.Repository.Parameters
         /// 價格
         /// </summary>
         public decimal Price { get; set; }
-
     }
 }
