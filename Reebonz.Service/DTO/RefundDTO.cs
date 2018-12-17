@@ -17,6 +17,11 @@ namespace Reebonz.Service.DTO
         public long ID { get; set; }
 
         /// <summary>
+        /// 訂單ID
+        /// </summary>
+        public string TransationID { get; set; }
+
+        /// <summary>
         /// 通知物流時間
         /// </summary>
         public DateTime ShipmentDate { get; set; }

@@ -7,33 +7,40 @@ using System.Threading.Tasks;
 namespace Reebonz.Service.DTO
 {
     /// <summary>
-    /// class RefundLogisticsRecordDTO
+    /// class OrderDetailDTO
     /// </summary>
-    public class RefundLogisticsRecordDTO
+    public class OrderDetailDTO
     {
+
         /// <summary>
         /// ID
         /// </summary>
         public long ID { get; set; }
 
         /// <summary>
-        /// Refund ID
+        /// 訂單ID
         /// </summary>
-        public long RefundID { get; set; }
+        public long OrderID { get; set; }
 
         /// <summary>
-        /// 公司收件日期
+        /// SKU
         /// </summary>
-        public DateTime ReceiveDate { get; set; }
+        public string SKU { get; set; }
 
         /// <summary>
-        /// 追蹤碼
+        /// 售價
         /// </summary>
-        public string TrackNumber { get; set; }
+        public decimal Price { get; set; }
+
+        /// <summary>
+        /// 數量
+        /// </summary>
+        public int Amount { get; set; }
 
         /// <summary>
         /// 寫入時間
         /// </summary>
         public DateTime DateIn { get; set; }
+
     }
 }

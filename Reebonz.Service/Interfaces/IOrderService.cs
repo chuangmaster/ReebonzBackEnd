@@ -9,27 +9,30 @@ using System.Threading.Tasks;
 namespace Reebonz.Service.Interfaces
 {
     /// <summary>
-    /// ingerface IRefundService
+    /// interface IOrderService
     /// </summary>
-    public interface IRefundService
+    public interface IOrderService
     {
         /// <summary>
-        /// 取得所有退貨
+        /// 取得訂單
         /// </summary>
+        /// <param name="transationID"></param>
         /// <returns></returns>
-        List<RefundDTO> Get();
+        OrderDTO Get(string transationID);
 
         /// <summary>
-        /// 新增退貨
+        /// 新增訂單
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        int Add(RefundAddParameterDTO parameter);
+        bool Add(OrderAddParameterDTO parameter);
 
         /// <summary>
-        /// 更新退貨
+        /// 新增訂單明細
         /// </summary>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        bool Update();
+        bool AddDetail(List<OrderDetailBaseAddParameterDTO> parameters);
+
     }
 }

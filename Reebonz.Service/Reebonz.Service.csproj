@@ -43,14 +43,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\OrderDetailDTO.cs" />
+    <Compile Include="DTO\OrderDTO.cs" />
+    <Compile Include="DTO\Parameters\OrderAddParameterDTO.cs" />
+    <Compile Include="DTO\Parameters\OrderDetailAddParameterDTO.cs" />
+    <Compile Include="DTO\Parameters\OrderDetailBaseAddParameterDTO.cs" />
     <Compile Include="DTO\Parameters\RefundAddParameterDTO.cs" />
     <Compile Include="DTO\RefundDetailDTO.cs" />
-    <Compile Include="DTO\RefundLogisticsRecordDTO.cs" />
     <Compile Include="DTO\RefundDTO.cs" />
     <Compile Include="DTO\RefundSingaporeRecordDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
+    <Compile Include="Interfaces\IOrderService.cs" />
     <Compile Include="Interfaces\IRefundService.cs" />
+    <Compile Include="MapperProfile\OrderProfile.cs" />
     <Compile Include="MapperProfile\RefundProfile.cs" />
+    <Compile Include="OrderService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RefundService.cs" />
   </ItemGroup>
