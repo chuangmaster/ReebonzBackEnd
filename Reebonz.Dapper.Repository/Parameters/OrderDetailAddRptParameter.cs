@@ -12,6 +12,10 @@ namespace Reebonz.Dapper.Repository.Parameters
     public class OrderDetailAddRptParameter
     {
         /// <summary>
+        /// Order ID
+        /// </summary>
+        public long OrderID { get; set; }
+        /// <summary>
         /// SKU
         /// </summary>
         public string SKU { get; set; }

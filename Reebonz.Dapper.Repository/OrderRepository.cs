@@ -68,7 +68,12 @@ namespace Reebonz.Dapper.Repository
             }
         }
 
-        public bool AddDetail()
+        /// <summary>
+        /// 新增訂單明細
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        public bool AddDetail(OrderDetailAddRptParameter parameter)
         {
             var Result = false;
             using (var conn = _Provider.GetConnection())
@@ -76,11 +81,10 @@ namespace Reebonz.Dapper.Repository
                 var sb = new StringBuilder();
                 sb.AppendLine(@"INSERT INTO [OrderDetail] (OrderID, SKU, Amount, Price) VALUES(@OrderID, @SKU, @Amount, @Price);");
                 var sqlParameters = new DynamicParameters();
-                sqlParameters.Add("OrderID");
-                sqlParameters.Add("SKU");
-                sqlParameters.Add("Amount");
-                sqlParameters.Add("Price");
-
+                sqlParameters.Add("OrderID", parameter.OrderID);
+                sqlParameters.Add("SKU", parameter.SKU);
+                sqlParameters.Add("Amount", parameter.Amount);
+                sqlParameters.Add("Price", parameter.Price);
 
                 Result = conn.Execute(sb.ToString(), sqlParameters) > 0;
 
@@ -99,9 +103,17 @@ namespace Reebonz.Dapper.Repository
             {
                 var sb = new StringBuilder();
                 sb.AppendLine(@"SELECT * FROM Order WHERE TransationID = @TransationID AND Enable != 0");
+                sb.AppendLine(@"SELECT * FROM OrderDetail ");
+
                 var SQLParameters = new DynamicParameters();
                 SQLParameters.Add("TransationID", transationID);
-                var Result = conn.QueryFirst<OrderModel>(sb.ToString(), SQLParameters);
+                var datas = conn.QueryMultiple(sb.ToString(), SQLParameters);
+                var Result = datas.ReadFirst<OrderModel>();
+                if (Result != null)
+                {
+                    var allDetails = datas.Read<OrderDetailModel>().ToList();
+                    Result.OrderDetails = allDetails.FindAll(x => x.OrderID == Result.ID);
+                }
                 return Result;
             }
         }

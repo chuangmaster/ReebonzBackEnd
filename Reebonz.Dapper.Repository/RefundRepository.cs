@@ -91,7 +91,7 @@ namespace Reebonz.Dapper.Repository
         /// <returns></returns>
         public List<RefundModel> Get()
         {
-            List<RefundModel> Result = null;
+            List<RefundModel> Result = new List<RefundModel>();
             using (var conn = _Provider.GetConnection())
             {
                 var sql = new StringBuilder();

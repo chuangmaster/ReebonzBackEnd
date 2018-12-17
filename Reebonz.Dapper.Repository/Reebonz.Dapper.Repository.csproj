@@ -46,6 +46,7 @@
     <Compile Include="Interfaces\IRefundRepository.cs" />
     <Compile Include="Interfaces\ISQLConnectionProvider.cs" />
     <Compile Include="Interfaces\IOrderRepository.cs" />
+    <Compile Include="Models\OrderDetailModel.cs" />
     <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\RefundContactModel.cs" />
     <Compile Include="Models\RefundModel.cs" />
