@@ -1,4 +1,4 @@
-﻿using Reebonz.Interfaces.Service;
+﻿using Reebonz.Service.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +16,8 @@ namespace Reebonz.Controllers
         }
         public ActionResult Index()
         {
-            _RefundService.Get();
-            return View();
+            var model = _RefundService.Get();
+            return View(model);
         }
 
         public ActionResult About()

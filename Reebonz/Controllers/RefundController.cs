@@ -1,4 +1,4 @@
-﻿using Reebonz.Interfaces.Service;
+﻿using Reebonz.Service.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
