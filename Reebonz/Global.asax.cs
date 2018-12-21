@@ -13,12 +13,18 @@ namespace Reebonz
     {
         protected void Application_Start()
         {
+            UnityMvcActivator.Start();
+            UnityWebApiActivator.Start();
+            //UnityConfig.RegisterTypes();
+
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            UnityMvcActivator.Start();
+
+            GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+
         }
     }
 }
