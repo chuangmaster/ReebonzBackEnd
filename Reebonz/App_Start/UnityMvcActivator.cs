@@ -1,6 +1,10 @@
 using System.Linq;
 using System.Web.Mvc;
+
 using Unity.AspNet.Mvc;
+
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Reebonz.UnityMvcActivator), nameof(Reebonz.UnityMvcActivator.Start))]
+[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(Reebonz.UnityMvcActivator), nameof(Reebonz.UnityMvcActivator.Shutdown))]
 
 namespace Reebonz
 {
