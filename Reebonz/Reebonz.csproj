@@ -195,7 +195,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="MapProfile\OrderProfile.cs" />
     <Compile Include="Models\Output\ResponseResult.cs" />
+    <Compile Include="Models\Parameters\OrderAddActionParameter.cs" />
     <Compile Include="Models\Parameters\RefundAddActionParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -213,9 +215,11 @@
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Custom\RefundIndex.js" />
+    <Content Include="Scripts\Custom\Utility.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui\datepicker-zh-TW.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
