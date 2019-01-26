@@ -5,7 +5,7 @@
 
 <h2>退貨列表</h2>
 
-<div class="container">
+<div id="app" class="container">
     <div class="row d-flex justify-content-end">
         <div class="col-sm-8 col-md-7 col-lg-7 mt-3">
             <div class="input-group">
@@ -52,7 +52,7 @@
                             </td>
                             <td>@item.UserID</td>
                             <td>
-                                <button class="btn btn-primary">明細</button>
+                                <button class="btn btn-primary" @*v-on:click="test"*@>明細</button>
                                 <button class="btn btn-danger">刪除資料</button>
                             </td>
                         </tr>
@@ -62,7 +62,7 @@
         </div>
     </div>
 
-    <!-- LOGIN MODAL -->
+    <!-- Refund Apply -->
     <div class="modal fade" id="addModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -74,26 +74,190 @@
                     <form>
                         <div class="form-group">
                             <label for="transationID">訂單編號</label>
-                            <input class="form-control" type="text">
-                        </div>
-                        <div class="form-group">
-                            <label for="SKU">退貨SKU</label>
-                            <div class="input-group">
-                                <input class="form-control" type="text">
-                                <div class="input-group-append">
-                                    <button class="btn btn-secondary" type="button">+</button>
-                                </div>
-                            </div>
+                            <input class="form-control" type="text" v-model="transationID">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" data-dismiss="modal">Submit</button>
-                    @*<button class="btn btn-secondary" data-dismiss="modal">Close</button>*@
+                    <button class="btn btn-primary" data-dismiss="modal" v-on:click="searchTransationID()" v-on:keyup.13="searchTransationID">查詢</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 增加訂單商品明細Modal -->
+    <div class="modal fade" id="addOrderDetailModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">新增訂單明細</h5>
+                    <button class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <label>訂單項目</label>
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>SKU</th>
+                                <th>商品單價</th>
+                                <th>數量</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr v-for="(item, key) in orderDetails" v-on:dblclick="editOrderDetail(item)">
+                                <td>{{item.sku}}</td>
+                                <td>{{item.price}}</td>
+                                <td>{{item.amount}}</td>
+                                <td><button class="btn btn-danger" v-on:click="removeOrderDetail(key)">移除</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr />
+                    <form action="#">
+                        <div class="form-group">
+                            <label for="SKU">SKU</label>
+                            <div class="input-group">
+                                <input class="form-control" type="text" id="tempOrderDetailSKU" v-model="tempOrderDetailSKU" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Price">商品單價</label>
+                            <div class="input-group">
+                                <input class="form-control" type="number" id="tempOrderDetailPrice" min="0" v-model="tempOrderDetailPrice">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Amount">數量</label>
+                            <div class="input-group">
+                                <input class="form-control" type="number" id="tempOrderDetailAmount" min="1" v-model="tempOrderDetailAmount">
+                            </div>
+                        </div>
+                        <button class="btn btn-success" v-on:click="addOrderDetail()">更新</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" v-on:click="addOrder()">新增訂單</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 退貨項目明細Modal-->
+    <div id="addOrderRefundModal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">退貨申請</h5>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-hover table-responsive">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>SKU</th>
+                                <th>商品單價</th>
+                                <th>數量</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, key) in orderDetails" v-on:dblclick="editOrderDetail(item)">
+                                <td>{{item.sku}}</td>
+                                <td>{{item.price}}</td>
+                                <td>
+                                    <select class="form-control">
+                                        <option value="value">0</option>
+                                        <option v-for="value in item.amount" value="value">{{value}}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary">下一步</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 退貨明細Modal-->
+    <div class="modal fade" id="addRefundInfoModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                </div>
+                <div class="modal-body">
+
+
+                    <label>訂單項目</label>
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>SKU</th>
+                                <th>商品單價</th>
+                                <th>數量</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <hr />
+                    <form action="#">
+                        <div class="form-group">
+                            <label for="transationID">訂單編號</label>
+                            <input class="form-control" type="text" v-model="transationID">
+                        </div>
+                        <div class="form-group">
+                            <label for="SenderName">取件人名稱</label>
+                            <input class="form-control" type="text" v-model="senderName">
+                        </div>
+                        <div class="form-group">
+                            <label for="SenderAddr">取件地址</label>
+                            <input class="form-control" type="text" v-model="senderAddr">
+                        </div>
+                        <div class="form-group">
+                            <label for="SenderPhone">取件人電話</label>
+                            <input class="form-control" type="text" v-model="senderPhone">
+                        </div>
+                        <div class="form-group">
+                            <label for="SenderAddr">取件時間</label>
+                            <input class="form-control" type="text" id="askDate" v-model="askDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="SenderAddr">通知時間</label>
+                            <input class="form-control" type="text" id="shipmentDate" v-model="shipmentDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="Memo">備註</label>
+                            <input class="form-control" type="text" v-model="memo">
+                        </div>
+                        <div class="form-group">
+                            <label for="CaseNum">CaseNum</label>
+                            <input class="form-control" type="text" v-model="caseNum">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-dismiss="modal" v-on:click="addOrderRefund()">新增退貨單</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+@section scripts{
+    <script src="~/Scripts/Custom/RefundIndex.js"></script>
+    <script>
+        $(function () {
+            
+
+            $('#askDate').datepicker();            
+            $('#shipmentDate').datepicker();
+
+        });
+    </script>
+}
 
