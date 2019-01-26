@@ -12,9 +12,14 @@ namespace Reebonz.Dapper.Repository.Models
     public class RefundModel
     {
         /// <summary>
-        /// The returns ID
+        /// The Refund ID
         /// </summary>
         public long ID { get; set; }
+
+        /// <summary>
+        /// 訂單ID
+        /// </summary>
+        public long OrderID { get; set; }
 
         /// <summary>
         /// 通知物流時間
@@ -32,19 +37,29 @@ namespace Reebonz.Dapper.Repository.Models
         public string Memo { get; set; }
 
         /// <summary>
-        /// 退款金額
+        /// 編輯者ID
         /// </summary>
-        public decimal Price { get; set; }
-
-        /// <summary>
-        /// 資料編輯者ID
-        /// </summary>
-        public int UserID { get; set; }
+        public Guid UserID { get; set; }
 
         /// <summary>
         /// Case Number
         /// </summary>
         public string CaseNum { get; set; }
+
+        /// <summary>
+        /// 取件人名稱
+        /// </summary>
+        public string SenderName { get; set; }
+
+        /// <summary>
+        /// 取件人地址
+        /// </summary>
+        public string SenderAddr { get; set; }
+
+        /// <summary>
+        /// 取件人電話
+        /// </summary>
+        public string SenderPhone { get; set; }
 
         /// <summary>
         /// 資料寫入時間

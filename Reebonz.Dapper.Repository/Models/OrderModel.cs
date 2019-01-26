@@ -11,31 +11,36 @@ namespace Reebonz.Dapper.Repository.Models
     /// </summary>
     public class OrderModel
     {
+
         /// <summary>
         /// ID
         /// </summary>
         public long ID { get; set; }
+
         /// <summary>
         /// 訂單編號
         /// </summary>
-        public string TransationID { get; set; }
+        public string TransactionID { get; set; }
+
         /// <summary>
-        /// 寫入日期
+        /// 編輯者ID
         /// </summary>
-        public DateTime DateIn { get; set; }
+        public Guid UserID { get; set; }
+
         /// <summary>
-        /// 修改日期
+        /// 修改時間
         /// </summary>
         public DateTime ModifiedTime { get; set; }
+
         /// <summary>
-        /// 資料狀態
+        /// 資料存取狀態
         /// </summary>
         public bool Enable { get; set; }
 
         /// <summary>
-        /// 訂單明細
+        /// 寫入時間
         /// </summary>
-        public List<OrderDetailModel> OrderDetails { get; set; }
+        public DateTime DateIn { get; set; }
 
     }
 }

@@ -23,9 +23,9 @@ namespace Reebonz.Dapper.Repository.Models
         public long RefundID { get; set; }
 
         /// <summary>
-        /// 公司收件日期
+        /// 商品編號
         /// </summary>
-        public DateTime ReceiveDate { get; set; }
+        public string SKU { get; set; }
 
         /// <summary>
         /// 退款金額
@@ -36,6 +36,5 @@ namespace Reebonz.Dapper.Repository.Models
         /// 追蹤碼
         /// </summary>
         public string TrackNumber { get; set; }
-
     }
 }
