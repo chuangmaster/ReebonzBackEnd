@@ -198,7 +198,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Attribute\CustomExceptionFilterAttribute.cs" />
-    <Compile Include="MapProfile\OrderProfile.cs" />
+    <Compile Include="MapProfile\OrderProfileMapper.cs" />
     <Compile Include="Models\Output\ResponseResult.cs" />
     <Compile Include="Models\Parameters\OrderAddActionParameter.cs" />
     <Compile Include="Models\Parameters\RefundAddActionParameter.cs" />

@@ -10,9 +10,9 @@ using Reebonz.Service.DTO;
 namespace Reebonz.Service.MapperProfile
 {
     /// <summary>
-    /// class RefundProfile
+    /// class RefundMapperProfile
     /// </summary>
-    internal class RefundProfile : Profile
+    internal class RefundMapperProfile : Profile
     {
         internal static IMapper Config = new MapperConfiguration(cfg =>
         {

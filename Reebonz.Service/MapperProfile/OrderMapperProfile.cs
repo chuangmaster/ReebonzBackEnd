@@ -11,7 +11,10 @@ using System.Threading.Tasks;
 
 namespace Reebonz.Service.MapperProfile
 {
-    public class OrderProfile : Profile
+    /// <summary>
+    /// class OrderMapperProfile
+    /// </summary>
+    public class OrderMapperProfile : Profile
     {
         internal static IMapper Config = new MapperConfiguration(cfg =>
         {

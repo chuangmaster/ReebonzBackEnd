@@ -13,6 +13,7 @@ namespace Reebonz.MapProfile
         public OrderProfile()
         {
             CreateMap<OrderAddActionParameter, OrderAddParameterDTO>();
+            CreateMap<OrderAddActionParameter.OrderDetail, OrderDetailAddParameterDTO>();
         }
     }
 }

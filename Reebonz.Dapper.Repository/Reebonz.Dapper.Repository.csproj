@@ -48,7 +48,6 @@
     <Compile Include="Interfaces\IOrderRepository.cs" />
     <Compile Include="Models\OrderDetailModel.cs" />
     <Compile Include="Models\OrderModel.cs" />
-    <Compile Include="Models\RefundContactModel.cs" />
     <Compile Include="Models\RefundModel.cs" />
     <Compile Include="Models\RefundSingaporeRecordModel.cs" />
     <Compile Include="Models\RefundDetailModel.cs" />
