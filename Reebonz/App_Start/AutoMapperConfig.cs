@@ -9,7 +9,7 @@ namespace Reebonz.App_Start
 {
     public static class AutoMapperConfig
     {
-        static void Config()
+        public static void Config()
         {
 
             Mapper.Initialize(x =>
