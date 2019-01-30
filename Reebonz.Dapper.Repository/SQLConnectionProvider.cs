@@ -14,7 +14,7 @@ namespace Reebonz.Dapper.Repository
     /// </summary>
     public class SQLConnectionProvider : ISQLConnectionProvider
     {
-        private IDbConnection _SQLConncetion;
+        private string _ConnectSting;
 
         /// <summary>
         /// 取得SQL Connection
@@ -22,13 +22,14 @@ namespace Reebonz.Dapper.Repository
         /// <returns></returns>
         public IDbConnection GetConnection()
         {
-            return _SQLConncetion;
+            var SQLConncetion = new SqlConnection(_ConnectSting);
+            return SQLConncetion;
         }
 
 
         public SQLConnectionProvider(string connStr)
         {
-            _SQLConncetion = new SqlConnection(connStr);
+            _ConnectSting = connStr;
         }
     }
 }
