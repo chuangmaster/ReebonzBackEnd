@@ -7,7 +7,8 @@
 var app = new Vue({
     el: '#app',
     data: {
-        transationID: '',
+        orderID: '',
+        transactionID: '',
         orderDetails: [],
         tempOrderDetailSKU: '',
         tempOrderDetailPrice: 0,
@@ -18,19 +19,31 @@ var app = new Vue({
         senderAddr: '',
         senderPhone: '',
         askDate: formatDate(new Date()),
-        shipmentDate: formatDate(new Date())
+        shipmentDate: formatDate(new Date()),
+        wantRefundForView: []
     },
     mounted: function () {
 
     },
     methods: {
-        searchTransationID: function () {
+        searchTransactionID: function () {
+            var self = this;
+            if (self.transactionID === '') {
+                alert('請輸入訂單編號!');
+                return;
+            }
             $.ajax({
-                url: '/api/v1/Order/' + this.transationID,
+                url: '/api/v1/Order/' + self.transactionID,
                 success: function (result, textStatus, jqXHR) {
-                    var self = this;
                     if (result.Data !== null) {
-                        self.orderDetails = result.Data;
+                        self.orderID = result.Data.id;
+                        self.transactionID = result.Data.transactionID;
+                        self.orderDetails = result.Data.orderDetails;
+                        self.orderDetails.forEach(function (item) {
+                            item.orderDetailTemp = `${item.sku}_0`;
+                        });
+                        $('#searchOrderModal').modal('hide');
+                        $('#addOrderRefundModal').modal('show');
                     } else {
                         $('#addOrderDetailModal').modal('show');
                     }
@@ -51,7 +64,7 @@ var app = new Vue({
             orderDetail.price = parseInt(self.tempOrderDetailPrice);
             orderDetail.amount = parseInt(self.tempOrderDetailAmount);
             orderDetail.sku = self.tempOrderDetailSKU;
-            orderDetail.refundAmount = `${self.tempOrderDetailSKU}_0`;
+            orderDetail.orderDetailTemp = `${self.tempOrderDetailSKU}_0`;
             var isExist = false;
             self.orderDetails.forEach(function (item) {
                 if (orderDetail.sku === item.sku) {
@@ -87,48 +100,98 @@ var app = new Vue({
                 return;
             }
             var obj = {
-                TransationID: self.transationID,
+                TransactionID: self.transactionID,
                 OrderDetails: self.orderDetails
             };
-            $("#addOrderRefundModal").modal("show");
-            //$.ajax({
-            //    url: '/api/v1/Order',
-            //    method: 'post',
-            //    data: obj,
-            //    success: function (result, textStatus, jqXHR) {
-            //        var self = this;
-            //        if (result.Data !== null) {
-            //            self.orderDetails = result.Data;
-            //        } else {
-
-            //        }
-            //    },
-            //    error: function () {
-
-            //    }
-            //});
-        },
-        addOrderRefund: function () {
-            //u
-            var obj = {
-                TransationID: '',
-                CaseNum: '',
-                Memo: '',
-                SenderName: '',
-                SenderAddr: '',
-                SenderPhone: '',
-                AskDate: new Date(),
-                ShipmentDate: new Date(),
-            };
             $.ajax({
-                url: '',
+                url: '/api/v1/Order',
                 method: 'post',
                 data: obj,
-                success: function () {
+                success: function (result, textStatus, jqXHR) {
+                    var self = this;
+                    if (result.Data !== null) {
+                        self.orderDetails.forEach(function (od) {
+                            self.wantRefundForView.push({
+                                sku: od.orderDetailTemp.split('_')[0],
+                                price: od.price,
+                                amount: od.orderDetailTemp.split('_')[1]
+                            });
+                        });
+                        $("#addOrderDetailModal").modal("hide");
+                        $("#addOrderRefundModal").modal("show");
 
+                    } else {
+                        alert(result.Message);
+                    }
                 },
-                error: function () {
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.responseJSON.Message);
+                }
+            });
+        },
+        showRefundInfoModal: function () {
+            var self = this;
+            self.wantRefundForView = [];
+            self.orderDetails.forEach(function (od) {
+                self.wantRefundForView.push({
+                    sku: od.orderDetailTemp.split('_')[0],
+                    price: od.price,
+                    amount: od.orderDetailTemp.split('_')[1]
+                });
+            });
+            $("#addOrderRefundModal").modal("hide");
+            $("#addRefundInfoModal").modal("show");
+        },
+        addOrderRefund: function () {
+            var self = this;
+            var confirmMessage = '請確認退貨資料:\r\n';
+            confirmMessage += `訂單編號:${self.transactionID}\r\n`;
 
+            var wantRefund = [];
+            self.wantRefundForView.forEach(function (item) {
+                wantRefund.push({
+                    SKU: item.sku,
+                    Price: item.price,
+                    Amount: item.amount
+                });
+                confirmMessage += `${item.sku}-${item.amount}件-單筆退款金額NT${item.price}\r\n`;
+            });
+            confirmMessage += `取件人名稱:${self.senderName}\r\n`;
+            confirmMessage += `取件地址:${self.senderAddr}\r\n`;
+            confirmMessage += `取件人電話:${self.senderPhone}\r\n`;
+            confirmMessage += `取件時間:${formatDate(new Date(self.askDate))}\r\n`;
+            confirmMessage += `通知時間:${formatDate(new Date(self.shipmentDate))}\r\n`;
+            confirmMessage += `備註:${self.memo}\r\n`;
+            confirmMessage += `CaseNum:${self.caseNum}\r\n`;
+      
+            var y = confirm(confirmMessage);
+            if (!y) {
+                return;
+            }
+            var obj = {
+                OrderID: self.orderID,
+                TransactionID: self.transactionID,
+                CaseNum: self.caseNum,
+                Memo: self.memo,
+                SenderName: self.senderName,
+                SenderAddr: self.senderAddr,
+                SenderPhone: self.senderPhone,
+                AskDate: formatDate(new Date(self.askDate)),
+                ShipmentDate: formatDate(new Date(self.shipmentDate)),
+                RefundDetails: wantRefund
+            };
+
+            $.ajax({
+                url: '/api/v1/refund',
+                method: 'post',
+                data: obj,
+                success: function (result) {
+                    if (result.Message !== '') {
+                        alert(result.Message);
+                    }
+                },
+                error: function (jsXHR) {
+                    alert(jsXHR.responseJSON.Message);
                 }
 
             });

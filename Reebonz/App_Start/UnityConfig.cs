@@ -17,6 +17,9 @@ namespace Reebonz
     /// </summary>
     public static class UnityConfig
     {
+
+        static string _ConnectionString;
+
         #region Unity Container
         private static Lazy<IUnityContainer> container =
           new Lazy<IUnityContainer>(() =>
@@ -86,8 +89,8 @@ namespace Reebonz
 
 
             //Register Repository
-            var ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ToString();
-            _Container.RegisterType<ISQLConnectionProvider, SQLConnectionProvider>(new InjectionConstructor(ConnectionString));
+            _ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ToString();
+            _Container.RegisterType<ISQLConnectionProvider, SQLConnectionProvider>(new InjectionConstructor(_ConnectionString));
             _Container.RegisterType<IRefundRepository, RefundRepository>();
 
             //MVC Web
