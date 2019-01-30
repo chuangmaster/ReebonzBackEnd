@@ -31,38 +31,46 @@ namespace Reebonz.Dapper.Repository
         {
             using (var conn = _Provider.GetConnection())
             {
-                conn.Open();
                 using (var trans = conn.BeginTransaction())
                 {
-                    var PredictEffectRow = 1 + parameter.OrderDetailCollection.Count;
-                    var PhysicallyEffectRow = 0;
-                    var sb = new StringBuilder();
-                    var SQLParameters = new DynamicParameters();
-                    sb.AppendLine(@"DECLARE @OrderID bigint;");
-                    sb.AppendLine(@"INSERT INTO [Order] (TransationID) VALUES(@TransationID);");
-                    sb.AppendLine(@"SET @OrderID = SCOPE_IDENTITY();");
-                    SQLParameters.Add("TransationID", parameter.TransationID);
-                    var index = 1;
-                    foreach (var item in parameter.OrderDetailCollection)
+                    try
                     {
-                        sb.AppendLine(@"INSERT INTO OrderDetail (OrderID, SKU, Amount, Price)");
-                        sb.AppendLine($" VALUES(@OrderID, @SKU{index}, @Amount{index}, @Price{index})");
-                        SQLParameters.Add($"SKU{index}", item.SKU);
-                        SQLParameters.Add($"Amount{index}", item.Amount);
-                        SQLParameters.Add($"Price{index}", item.Price);
-                        index++;
-                    }
 
-                    PhysicallyEffectRow = conn.Execute(sb.ToString(), SQLParameters, trans);
-                    if (PredictEffectRow == PhysicallyEffectRow)
-                    {
-                        trans.Commit();
+                        var PredictEffectRow = 1 + parameter.OrderDetails.Count;
+                        var PhysicallyEffectRow = 0;
+                        var sb = new StringBuilder();
+                        var SQLParameters = new DynamicParameters();
+                        sb.AppendLine(@"DECLARE @OrderID bigint;");
+                        sb.AppendLine(@"INSERT INTO [Order] (TransationID) VALUES(@TransationID);");
+                        sb.AppendLine(@"SET @OrderID = SCOPE_IDENTITY();");
+                        SQLParameters.Add("TransationID", parameter.TransationID);
+                        var index = 1;
+                        foreach (var item in parameter.OrderDetails)
+                        {
+                            sb.AppendLine(@"INSERT INTO OrderDetail (OrderID, SKU, Amount, Price)");
+                            sb.AppendLine($" VALUES(@OrderID, @SKU{index}, @Amount{index}, @Price{index})");
+                            SQLParameters.Add($"SKU{index}", item.SKU);
+                            SQLParameters.Add($"Amount{index}", item.Amount);
+                            SQLParameters.Add($"Price{index}", item.Price);
+                            index++;
+                        }
+
+                        PhysicallyEffectRow = conn.Execute(sb.ToString(), SQLParameters, trans);
+                        if (PredictEffectRow == PhysicallyEffectRow)
+                        {
+                            trans.Commit();
+                        }
+                        else
+                        {
+                            trans.Rollback();
+                        }
+                        return PredictEffectRow == PhysicallyEffectRow;
                     }
-                    else
+                    catch (Exception ex)
                     {
                         trans.Rollback();
+                        throw new Exception("資料庫發生錯誤", ex);
                     }
-                    return PredictEffectRow == PhysicallyEffectRow;
                 }
             }
         }
@@ -77,28 +85,36 @@ namespace Reebonz.Dapper.Repository
             var Result = false;
             using (var conn = _Provider.GetConnection())
             {
-                conn.Open();
                 using (var trans = conn.BeginTransaction())
                 {
-                    var sb = new StringBuilder();
-                    var sqlParameters = new DynamicParameters();
-                    int counter = 1;
-                    foreach (var item in parameters)
+                    try
                     {
-                        sb.AppendLine($"INSERT INTO [OrderDetail] (OrderID, SKU, Amount, Price) VALUES(@OrderID{counter}, @SKU{counter}, @Amount{counter}, @Price{counter});");
-                        sqlParameters.Add($"OrderID{counter}", item.OrderID);
-                        sqlParameters.Add($"SKU{counter}", item.SKU);
-                        sqlParameters.Add($"Amount{counter}", item.Amount);
-                        sqlParameters.Add($"Price{counter}", item.Price);
-                        counter++;
+
+                        var sb = new StringBuilder();
+                        var sqlParameters = new DynamicParameters();
+                        int counter = 1;
+                        foreach (var item in parameters)
+                        {
+                            sb.AppendLine($"INSERT INTO [OrderDetail] (OrderID, SKU, Amount, Price) VALUES(@OrderID{counter}, @SKU{counter}, @Amount{counter}, @Price{counter});");
+                            sqlParameters.Add($"OrderID{counter}", item.OrderID);
+                            sqlParameters.Add($"SKU{counter}", item.SKU);
+                            sqlParameters.Add($"Amount{counter}", item.Amount);
+                            sqlParameters.Add($"Price{counter}", item.Price);
+                            counter++;
+                        }
+                        Result = conn.Execute(sb.ToString(), sqlParameters) > 0;
+                        if (Result)
+                            trans.Commit();
+                        else
+                            trans.Rollback();
+                        return Result;
                     }
-                    Result = conn.Execute(sb.ToString(), sqlParameters) > 0;
-                    if (Result)
-                        trans.Commit();
-                    else
+                    catch (Exception ex)
+                    {
                         trans.Rollback();
+                        throw new Exception("資料庫發生錯誤", ex);
+                    }
                 }
-                return Result;
             }
         }
 
@@ -111,20 +127,27 @@ namespace Reebonz.Dapper.Repository
         {
             using (var conn = _Provider.GetConnection())
             {
-                var sb = new StringBuilder();
-                sb.AppendLine(@"SELECT * FROM Order WHERE TransationID = @TransationID AND Enable != 0");
-                sb.AppendLine(@"SELECT * FROM OrderDetail ");
-
-                var SQLParameters = new DynamicParameters();
-                SQLParameters.Add("TransationID", transationID);
-                var datas = conn.QueryMultiple(sb.ToString(), SQLParameters);
-                var Result = datas.ReadFirst<OrderModel>();
-                if (Result != null)
+                try
                 {
-                    var allDetails = datas.Read<OrderDetailModel>().ToList();
-                    Result.OrderDetails = allDetails.FindAll(x => x.OrderID == Result.ID);
+                    var sb = new StringBuilder();
+                    sb.AppendLine(@"SELECT * FROM [Order] WHERE TransactionID = @TransactionID AND Enable != 0");
+                    sb.AppendLine(@"SELECT * FROM [OrderDetail] ");
+
+                    var SQLParameters = new DynamicParameters();
+                    SQLParameters.Add("TransactionID", transationID);
+                    var datas = conn.QueryMultiple(sb.ToString(), SQLParameters);
+                    var Result = datas.ReadFirstOrDefault<OrderModel>();
+                    if (Result != null)
+                    {
+                        var allDetails = datas.Read<OrderDetailModel>().ToList();
+                        Result.OrderDetails = allDetails.FindAll(x => x.OrderID == Result.ID);
+                    }
+                    return Result;
                 }
-                return Result;
+                catch (Exception ex)
+                {
+                    throw new Exception("資料庫發生錯誤", ex);
+                }
             }
         }
     }

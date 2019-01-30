@@ -15,10 +15,11 @@ namespace Reebonz.Dapper.Repository.Parameters
         /// 訂單ID
         /// </summary>
         public long OrderID { get; set; }
+
         /// <summary>
         /// 通知物流時間
         /// </summary>
-        public DateTime? ShipmentDate { get; set; }
+        public DateTime ShipmentDate { get; set; }
 
         /// <summary>
         /// 客戶要求取件時間
@@ -29,11 +30,6 @@ namespace Reebonz.Dapper.Repository.Parameters
         /// 備註
         /// </summary>
         public string Memo { get; set; }
-
-        /// <summary>
-        /// 退款金額
-        /// </summary>
-        public decimal Price { get; set; }
 
         /// <summary>
         /// 資料編輯者ID
@@ -55,10 +51,6 @@ namespace Reebonz.Dapper.Repository.Parameters
         /// </summary>
         public DateTime ModifiedTime { get; set; }
 
-        /// <summary>
-        /// 資料存取狀態
-        /// </summary>
-        public bool Enable { get; set; }
 
         /// <summary>
         /// 被取件人名稱
@@ -74,5 +66,27 @@ namespace Reebonz.Dapper.Repository.Parameters
         /// 被取件人電話
         /// </summary>
         public string SenderPhone { get; set; }
+
+        /// <summary>
+        /// 退貨明細
+        /// </summary>
+        public List<RefundDetailAddRptParameter> RefundDetails { get; set; }
+
+        public class RefundDetailAddRptParameter
+        {
+            /// <summary>
+            /// SKU
+            /// </summary>
+            public string SKU { get; set; }
+            /// <summary>
+            /// 單價
+            /// </summary>
+            public decimal Price { get; set; }
+            /// <summary>
+            /// 數量
+            /// </summary>
+            public int Amount { get; set; }
+
+        }
     }
 }

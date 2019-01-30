@@ -19,11 +19,11 @@ namespace Reebonz.Dapper.Repository.Parameters
         /// <summary>
         /// 訂單明細
         /// </summary>
-        public List<OrderDetailAddRptParameter> OrderDetailCollection { get; set; }
+        public List<OrderDetailAddRptParameter> OrderDetails { get; set; }
 
         public OrderAddRptParameter()
         {
-            OrderDetailCollection = new List<OrderDetailAddRptParameter>();
+            OrderDetails = new List<OrderDetailAddRptParameter>();
         }
     }
 }

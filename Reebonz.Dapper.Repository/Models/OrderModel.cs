@@ -42,5 +42,10 @@ namespace Reebonz.Dapper.Repository.Models
         /// </summary>
         public DateTime DateIn { get; set; }
 
+        /// <summary>
+        /// 訂單明細
+        /// </summary>
+        public List<OrderDetailModel> OrderDetails { get; set; }
+
     }
 }

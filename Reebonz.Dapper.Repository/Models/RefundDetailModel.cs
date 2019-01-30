@@ -31,10 +31,5 @@ namespace Reebonz.Dapper.Repository.Models
         /// 退款金額
         /// </summary>
         public decimal Price { get; set; }
-
-        /// <summary>
-        /// 追蹤碼
-        /// </summary>
-        public string TrackNumber { get; set; }
     }
 }

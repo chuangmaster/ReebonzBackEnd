@@ -24,7 +24,7 @@ namespace Reebonz.Dapper.Repository.Interfaces
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        bool Add(RefundAddRptParameter parameter);
+        int Add(RefundAddRptParameter parameter);
 
         /// <summary>
         /// 更新退貨

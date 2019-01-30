@@ -23,65 +23,68 @@ namespace Reebonz.Dapper.Repository
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        public bool Add(RefundAddRptParameter parameter)
+        public int Add(RefundAddRptParameter parameter)
         {
-            int Result = 0;
             using (var conn = _Provider.GetConnection())
             {
-                var sqlParameters = new DynamicParameters();
-                var sql = new StringBuilder();
-                sql.AppendLine(@"INSERT INTO Refund");
-                sql.AppendLine(@"           ([OrderID]");
-                sql.AppendLine(@"           ,[SenderName]");
-                sql.AppendLine(@"           ,[SenderAddr]");
-                sql.AppendLine(@"           ,[SenderPhone]");
-                sql.AppendLine(@"           ,[AskDate]");
-
-
-                sqlParameters.Add("OrderID", parameter.OrderID);
-                sqlParameters.Add("SenderName", parameter.SenderName);
-                sqlParameters.Add("SenderAddr", parameter.SenderAddr);
-                sqlParameters.Add("SenderPhone", parameter.SenderPhone);
-                sqlParameters.Add("AskDate", parameter.AskDate);
-
-                var sqlParaString = new List<string>();
-                if (!string.IsNullOrEmpty(parameter.CaseNum))
+                using (var transaction = conn.BeginTransaction())
                 {
-                    sqlParameters.Add("CaseNum", parameter.CaseNum);
-                    sqlParaString.Add("CaseNum");
+                    try
+                    {
+                        int Result = 0;
+
+                        var sqlParameters = new DynamicParameters();
+                        var sql = new StringBuilder();
+
+                        sql.AppendLine(@"DECLARE @refundID bigint;");
+                        sql.AppendLine(@"INSERT INTO Refund");
+                        sql.AppendLine(@"           ([OrderID]");
+                        sql.AppendLine(@"           ,[SenderName]");
+                        sql.AppendLine(@"           ,[SenderAddr]");
+                        sql.AppendLine(@"           ,[SenderPhone]");
+                        sql.AppendLine(@"           ,[AskDate]");
+                        sql.AppendLine(@"           ,[ShipmentDate]");
+                        sql.AppendLine(@"           ,[UserID]");
+                        sql.AppendLine(@"           ,[CaseNum]");
+                        sql.AppendLine(@"           ,[Memo] )");
+                        sql.AppendLine(@"VALUES (@OrderID, @SenderName ");
+                        sql.AppendLine(@", @SenderAddr, @SenderPhone, @AskDate, @ShipmentDate, @UserID");
+                        sql.AppendLine(@", @Memo, @CaseNum)");
+                        sql.AppendLine(@"SET @refundID = SCOPE_IDENTITY();");
+                        sqlParameters.Add("OrderID", parameter.OrderID);
+                        sqlParameters.Add("SenderName", parameter.SenderName);
+                        sqlParameters.Add("SenderAddr", parameter.SenderAddr);
+                        sqlParameters.Add("SenderPhone", parameter.SenderPhone);
+                        sqlParameters.Add("AskDate", parameter.AskDate);
+                        sqlParameters.Add("ShipmentDate", parameter.ShipmentDate);
+                        sqlParameters.Add("UserID", parameter.UserID ?? default(Guid));
+                        sqlParameters.Add("CaseNum", parameter.CaseNum);
+                        sqlParameters.Add("Memo", parameter.Memo);
+
+
+                        int index = 0;
+                        parameter.RefundDetails.ForEach(d =>
+                        {
+                            sql.AppendLine($"INSERT INTO RefundDetail (RefundID, SKU, Price, Amount) VALUES(@refundID ,@SKU{index}, @Price{index}, @Amount{index});");
+                            sqlParameters.Add($"SKU{index}", d.SKU);
+                            sqlParameters.Add($"Price{index}", d.Price);
+                            sqlParameters.Add($"Amount{index}", d.Amount);
+                            index++;
+                        });
+
+                        Result = conn.Execute(sql.ToString(), sqlParameters, transaction);
+                        if (Result > 0)
+                        {
+                            transaction.Commit();
+                        }
+                        return Result;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw new Exception("資料庫發生錯誤", ex);
+                    }
                 }
-
-                if (!string.IsNullOrEmpty(parameter.Memo))
-                {
-                    sqlParameters.Add("Memo", parameter.Memo);
-                    sqlParaString.Add("Memo");
-                }
-
-                if (parameter.ShipmentDate.HasValue)
-                {
-                    sqlParameters.Add("ShipmentDate", parameter.ShipmentDate.Value);
-                    sqlParaString.Add("ShipmentDate");
-                }
-
-                if (parameter.UserID.HasValue)
-                {
-                    sqlParameters.Add("UserID", parameter.UserID.Value);
-                    sqlParaString.Add("UserID");
-                }
-
-
-                sql.AppendLine(string.Join(",", sqlParaString.Select(x => $"{x} = @{x}")));
-
-                sql.AppendLine(@") ");
-
-                sql.AppendLine(@"VALUES (@OrderID, @Memo, @CaseNum, @SenderName, ");
-                sql.AppendLine(@"@SenderAddr, @SenderPhone, @AskDate, @ShipmentDate, @UserID,");
-                sql.AppendLine(string.Join(",", sqlParaString.Select(x => $" @{x}")));
-                sql.AppendLine(")");
-
-                Result = conn.Execute(sql.ToString(), sqlParameters);
-
-                return Result > 0;
             }
         }
 
@@ -107,7 +110,7 @@ namespace Reebonz.Dapper.Repository
                     var details = DataSet.Read<RefundDetailModel>().ToList();
                     Result.ForEach(x =>
                     {
-                        x.RefundDetailCollection = details.FindAll(y => y.RefundID == x.ID);
+                        x.RefundDetails = details.FindAll(y => y.RefundID == x.ID);
                     });
                 }
 
@@ -115,7 +118,10 @@ namespace Reebonz.Dapper.Repository
             return Result;
         }
 
-
+        /// <summary>
+        /// 更新退貨單資料
+        /// </summary>
+        /// <returns></returns>
         public bool Update()
         {
             throw new NotImplementedException();
