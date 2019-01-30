@@ -17,9 +17,9 @@ namespace Reebonz.Service.DTO
         public long ID { get; set; }
 
         /// <summary>
-        /// 訂單ID
+        /// 訂單編號
         /// </summary>
-        public string TransationID { get; set; }
+        public string TransactionID { get; set; }
 
         /// <summary>
         /// 通知物流時間
@@ -44,7 +44,7 @@ namespace Reebonz.Service.DTO
         /// <summary>
         /// 資料編輯者ID
         /// </summary>
-        public int UserID { get; set; }
+        public Guid UserID { get; set; }
 
         /// <summary>
         /// Case Number
@@ -84,11 +84,11 @@ namespace Reebonz.Service.DTO
         /// <summary>
         /// 退貨明細
         /// </summary>
-        public List<RefundDetailDTO> RefundDetailCollection { get; set; }
+        public List<RefundDetailDTO> RefundDetails { get; set; }
 
         public RefundDTO()
         {
-            this.RefundDetailCollection = new List<RefundDetailDTO>();
+            this.RefundDetails = new List<RefundDetailDTO>();
         }
     }
 }

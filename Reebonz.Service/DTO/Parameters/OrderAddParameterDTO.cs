@@ -19,7 +19,7 @@ namespace Reebonz.Service.DTO.Parameters
         /// <summary>
         /// 訂單明細
         /// </summary>
-        public List<OrderDetailAddParameterDTO> OrderDetail { get; set; }
+        public List<OrderDetailAddParameterDTO> OrderDetails { get; set; }
 
     }
 }

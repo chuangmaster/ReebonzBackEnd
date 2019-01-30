@@ -23,7 +23,7 @@ namespace Reebonz.Service
         public OrderService(IOrderRepository orderRepository)
         {
             _OrderRepository = orderRepository;
-            _Mapper = OrderProfile.Config;
+            _Mapper = OrderMapperProfile.Config;
         }
 
         /// <summary>

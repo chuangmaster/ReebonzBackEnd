@@ -19,9 +19,10 @@ namespace Reebonz.Service.MapperProfile
         internal static IMapper Config = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<OrderModel, OrderDTO>();
+            cfg.CreateMap<OrderDetailModel, OrderDetailDTO>();
             cfg.CreateMap<OrderAddParameterDTO, OrderAddRptParameter>();
             cfg.CreateMap<OrderDetailAddParameterDTO, OrderDetailAddRptParameter>();
-            cfg.CreateMap<OrderDetailBaseAddParameterDTO, OrderDetailBaseAddRptParameter>();
+            
 
         }).CreateMapper();
     }

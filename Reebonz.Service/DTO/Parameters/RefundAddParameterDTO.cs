@@ -12,6 +12,11 @@ namespace Reebonz.Service.DTO.Parameters
     public class RefundAddParameterDTO
     {
         /// <summary>
+        /// 訂單編號
+        /// </summary>
+        public long OrderID { get; set; }
+
+        /// <summary>
         /// 通知物流時間
         /// </summary>
         public DateTime ShipmentDate { get; set; }
@@ -27,14 +32,9 @@ namespace Reebonz.Service.DTO.Parameters
         public string Memo { get; set; }
 
         /// <summary>
-        /// 退款金額
-        /// </summary>
-        public decimal Price { get; set; }
-
-        /// <summary>
         /// 資料編輯者ID
         /// </summary>
-        public int UNo { get; set; }
+        public Guid? UNo { get; set; }
 
         /// <summary>
         /// Case Number
@@ -42,13 +42,40 @@ namespace Reebonz.Service.DTO.Parameters
         public string CaseNum { get; set; }
 
         /// <summary>
-        /// 資料寫入時間
+        /// 取件人名稱
         /// </summary>
-        public DateTime DateIn { get; set; }
+        public string SenderName { get; set; }
 
         /// <summary>
-        /// 資料修改時間
+        /// 取件地址
         /// </summary>
-        public DateTime ModifiedTime { get; set; }
+        public string SenderAddr { get; set; }
+
+        /// <summary>
+        /// 取件人電話
+        /// </summary>
+        public string SenderPhone { get; set; }
+
+        /// <summary>
+        /// 退貨明細
+        /// </summary>
+        public List<RefundDetailAddParameterDTO> RefundDetails { get; set; }
+
+        public class RefundDetailAddParameterDTO
+        {
+            /// <summary>
+            /// SKU
+            /// </summary>
+            public string SKU { get; set; }
+            /// <summary>
+            /// 單價
+            /// </summary>
+            public decimal Price { get; set; }
+            /// <summary>
+            /// 數量
+            /// </summary>
+            public int Amount { get; set; }
+
+        }
     }
 }

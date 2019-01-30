@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Reebonz.Dapper.Repository.Interfaces;
+using Reebonz.Dapper.Repository.Parameters;
 using Reebonz.Service.DTO;
 using Reebonz.Service.DTO.Parameters;
 using Reebonz.Service.Interfaces;
@@ -19,14 +20,16 @@ namespace Reebonz.Service
     {
         IMapper _Mapper;
         IRefundRepository _RefundRepository;
+
         public RefundService(IRefundRepository refundRepository)
         {
             _RefundRepository = refundRepository;
-            _Mapper = RefundProfile.Config;
+            _Mapper = RefundMapperProfile.Config;
         }
+
         public int Add(RefundAddParameterDTO parameter)
         {
-            _RefundRepository.Get();
+            var Result = _RefundRepository.Add(_Mapper.Map<RefundAddRptParameter>(parameter));
             return 1;
         }
 

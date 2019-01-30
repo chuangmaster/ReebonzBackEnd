@@ -18,7 +18,7 @@ namespace Reebonz.Service.DTO
         /// <summary>
         /// 訂單編號
         /// </summary>
-        public string TransationID { get; set; }
+        public string TransactionID { get; set; }
         /// <summary>
         /// 寫入日期
         /// </summary>
@@ -35,11 +35,11 @@ namespace Reebonz.Service.DTO
         /// <summary>
         /// 訂單明細
         /// </summary>
-        public List<OrderDetailDTO> OrderDetailCollection { get; set; }
+        public List<OrderDetailDTO> OrderDetails { get; set; }
 
         public OrderDTO()
         {
-            OrderDetailCollection = new List<OrderDetailDTO>();
+            OrderDetails = new List<OrderDetailDTO>();
         }
     }
 }
