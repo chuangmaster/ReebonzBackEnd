@@ -27,7 +27,8 @@ namespace Reebonz.Dapper.Repository
         {
             using (var conn = _Provider.GetConnection())
             {
-                using (var transaction = conn.BeginTransaction())
+                conn.Open();
+                using (var trans = conn.BeginTransaction())
                 {
                     try
                     {
@@ -72,16 +73,16 @@ namespace Reebonz.Dapper.Repository
                             index++;
                         });
 
-                        Result = conn.Execute(sql.ToString(), sqlParameters, transaction);
+                        Result = conn.Execute(sql.ToString(), sqlParameters, trans);
                         if (Result > 0)
                         {
-                            transaction.Commit();
+                            trans.Commit();
                         }
                         return Result;
                     }
                     catch (Exception ex)
                     {
-                        transaction.Rollback();
+                        trans.Rollback();
                         throw new Exception("資料庫發生錯誤", ex);
                     }
                 }
@@ -124,6 +125,16 @@ namespace Reebonz.Dapper.Repository
         /// <returns></returns>
         public bool Update()
         {
+            using (var conn = _Provider.GetConnection())
+            {
+                conn.Open();
+                using (var trans = conn.BeginTransaction())
+                {
+
+
+                    //conn.Execute();
+                }
+            }
             throw new NotImplementedException();
         }
 

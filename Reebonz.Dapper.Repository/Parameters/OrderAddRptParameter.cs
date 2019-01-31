@@ -14,7 +14,7 @@ namespace Reebonz.Dapper.Repository.Parameters
         /// <summary>
         /// 訂單編號
         /// </summary>
-        public string TransationID { get; set; }
+        public string TransactionID { get; set; }
 
         /// <summary>
         /// 訂單明細

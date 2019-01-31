@@ -31,6 +31,7 @@ namespace Reebonz.Dapper.Repository
         {
             using (var conn = _Provider.GetConnection())
             {
+                conn.Open();
                 using (var trans = conn.BeginTransaction())
                 {
                     try
@@ -41,9 +42,9 @@ namespace Reebonz.Dapper.Repository
                         var sb = new StringBuilder();
                         var SQLParameters = new DynamicParameters();
                         sb.AppendLine(@"DECLARE @OrderID bigint;");
-                        sb.AppendLine(@"INSERT INTO [Order] (TransationID) VALUES(@TransationID);");
+                        sb.AppendLine(@"INSERT INTO [Order] (TransactionID) VALUES(@TransactionID);");
                         sb.AppendLine(@"SET @OrderID = SCOPE_IDENTITY();");
-                        SQLParameters.Add("TransationID", parameter.TransationID);
+                        SQLParameters.Add("TransactionID", parameter.TransactionID);
                         var index = 1;
                         foreach (var item in parameter.OrderDetails)
                         {
@@ -85,6 +86,7 @@ namespace Reebonz.Dapper.Repository
             var Result = false;
             using (var conn = _Provider.GetConnection())
             {
+                conn.Open();
                 using (var trans = conn.BeginTransaction())
                 {
                     try
@@ -147,6 +149,51 @@ namespace Reebonz.Dapper.Repository
                 catch (Exception ex)
                 {
                     throw new Exception("資料庫發生錯誤", ex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改訂單明細  
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public bool UpdateDetail(List<OrderDetailUpdateRptParameter> parameters)
+        {
+            using (var conn = _Provider.GetConnection())
+            {
+                conn.Open();
+                using (var trans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        var sql = new StringBuilder();
+                        var SQLParameters = new DynamicParameters();
+                        int counter = 0;
+                        foreach (var item in parameters)
+                        {
+                            sql.AppendLine($@"UPDATE OrderDetail SET Amount = @Amount{counter}, Price = @Price{counter} WHERE ID = @ID{counter};");
+                            SQLParameters.Add($"Amount{counter}", item.Amount);
+                            SQLParameters.Add($"Price{counter}", item.Price);
+                            SQLParameters.Add($"ID{counter}", item.ID);
+                            counter++;
+                        }
+                        var Result = conn.Execute(sql.ToString(), SQLParameters, trans) == counter;
+                        if (Result)
+                        {
+                            trans.Commit();
+                        }
+                        else
+                        {
+                            trans.Rollback();
+                        }
+                        return Result;
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        throw new Exception("資料庫發生錯誤", ex);
+                    }
                 }
             }
         }
