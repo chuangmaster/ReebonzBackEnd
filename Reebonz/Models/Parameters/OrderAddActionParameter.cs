@@ -15,7 +15,7 @@ namespace Reebonz.Models.Parameters
         /// 訂單編號
         /// </summary>
         [Required(AllowEmptyStrings = false)]
-        public string TransationID { get; set; }
+        public string TransactionID { get; set; }
 
         /// <summary>
         /// 訂單明細

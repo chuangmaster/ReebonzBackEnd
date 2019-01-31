@@ -13,10 +13,16 @@ namespace Reebonz.Models.Parameters
     public class RefundAddActionParameter
     {
         /// <summary>
-        /// 訂單編號
+        /// 訂單ID
         /// </summary>
         [Required]
         public string OrderID { get; set; }
+
+        /// <summary>
+        /// 訂單編號
+        /// </summary>
+        [Required]
+        public string TransactionID { get; set; }
 
         /// <summary>
         /// 通知物流時間

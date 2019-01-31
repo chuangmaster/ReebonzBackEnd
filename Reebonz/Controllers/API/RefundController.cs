@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using static Reebonz.Models.Parameters.RefundAddActionParameter;
 
 namespace Reebonz.Controllers.API
 {
@@ -50,13 +51,37 @@ namespace Reebonz.Controllers.API
             }
             try
             {
-                var serviceResult = _RefundService.Add(Mapper.Map<RefundAddParameterDTO>(parameter));
-                if (serviceResult > 0)
+                var orderDTO = _OrderService.Get(parameter.TransactionID);
+                var updateOrderDetails = new List<OrderDetailUpdateParameterDTO>();
+                foreach (var item in parameter.RefundDetails)
                 {
-                    Resp.Data = serviceResult;
-                    Resp.Message = "新增成功";
-                    Resp.Description = "新增成功";
+                    var orderDetail = orderDTO.OrderDetails.FirstOrDefault(x => x.SKU == item.SKU);
+                    if (orderDetail.Amount - int.Parse(item.Amount) < 0)
+                    {
+                        throw new Exception("訂單數量有誤無法退貨");
+                    }
+                    updateOrderDetails.Add(new OrderDetailUpdateParameterDTO()
+                    {
+                        ID = orderDetail.ID,
+                        Amount = orderDetail.Amount - int.Parse(item.Amount),
+                        Price = orderDetail.Price
+                    });
                 }
+                var serviceAddResult = _RefundService.Add(Mapper.Map<RefundAddParameterDTO>(parameter));
+                if (serviceAddResult <= 0)
+                {
+                    Resp.Message = "新增失敗";
+                    Resp.Description = "新增失敗";
+                }
+                var serviceUpdateResult = _OrderService.UpdateDetail(updateOrderDetails);
+                if (!serviceUpdateResult)
+                {
+                    Resp.Message = "更新失敗";
+                    Resp.Description = "更新失敗";
+                }
+                Resp.Message = "新增成功";
+                Resp.Description = "新增成功";
+                Resp.Data = serviceAddResult;
             }
             catch (Exception ex)
             {

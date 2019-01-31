@@ -27,12 +27,21 @@ namespace Reebonz.Service
             _Mapper = RefundMapperProfile.Config;
         }
 
+        /// <summary>
+        /// 新增退貨
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         public int Add(RefundAddParameterDTO parameter)
         {
             var Result = _RefundRepository.Add(_Mapper.Map<RefundAddRptParameter>(parameter));
-            return 1;
+            return Result;
         }
 
+        /// <summary>
+        /// 取得所有退貨
+        /// </summary>
+        /// <returns></returns>
         public List<RefundDTO> Get()
         {
             return _Mapper.Map<List<RefundDTO>>(_RefundRepository.Get());

@@ -48,6 +48,7 @@
     <Compile Include="DTO\Parameters\OrderAddParameterDTO.cs" />
     <Compile Include="DTO\Parameters\OrderDetailAddParameterDTO.cs" />
     <Compile Include="DTO\Parameters\OrderDetailBaseAddParameterDTO.cs" />
+    <Compile Include="DTO\Parameters\OrderDetailUpdateParameterDTO.cs" />
     <Compile Include="DTO\Parameters\RefundAddParameterDTO.cs" />
     <Compile Include="DTO\RefundDetailDTO.cs" />
     <Compile Include="DTO\RefundDTO.cs" />

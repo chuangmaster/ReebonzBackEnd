@@ -24,6 +24,12 @@ namespace Reebonz.Controllers.API
         {
             _OrderService = orderService;
         }
+
+        /// <summary>
+        /// 取得訂單
+        /// </summary>
+        /// <param name="transationID"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("~/api/v1/Order/{transationID}")]
         public HttpResponseMessage Get(string transationID)
@@ -46,6 +52,7 @@ namespace Reebonz.Controllers.API
             }
             return Request.CreateResponse(ResponseStatus, Result);
         }
+
         /// <summary>
         /// 新增訂單
         /// </summary>
@@ -65,7 +72,7 @@ namespace Reebonz.Controllers.API
             {
                 _OrderService.Add(Mapper.Map<OrderAddParameterDTO>(parameter));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Resp.Message = "發生錯誤";
                 Resp.Description = "發生錯誤";

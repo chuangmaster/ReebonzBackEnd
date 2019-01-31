@@ -40,19 +40,6 @@ namespace Reebonz.Service
         }
 
         /// <summary>
-        /// 新增訂單
-        /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
-        public bool Add(List<OrderAddParameterDTO> parameter)
-        {
-            var Result = false;
-            var addOrderParameter = _Mapper.Map<OrderAddRptParameter>(parameter);
-            Result = _OrderRepository.Add(addOrderParameter);
-            return Result;
-        }
-
-        /// <summary>
         /// 新增訂單明細
         /// </summary>
         /// <param name="parameters"></param>
@@ -72,6 +59,17 @@ namespace Reebonz.Service
         public OrderDTO Get(string transationID)
         {
             var Result = _Mapper.Map<OrderDTO>(_OrderRepository.Get(transationID));
+            return Result;
+        }
+
+        /// <summary>
+        /// 修改訂單明細  
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public bool UpdateDetail(List<OrderDetailUpdateParameterDTO> parameters)
+        {
+            var Result = _OrderRepository.UpdateDetail(_Mapper.Map<List<OrderDetailUpdateRptParameter>>(parameters));
             return Result;
         }
     }

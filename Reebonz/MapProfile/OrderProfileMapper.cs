@@ -18,6 +18,9 @@ namespace Reebonz.MapProfile
             CreateMap<OrderAddActionParameter.OrderDetail, OrderDetailAddParameterDTO>();
             CreateMap<OrderDTO, OrderOutputModel>();
             CreateMap<OrderDetailDTO, OrderDetailOutputModel>();
+
+            CreateMap<OrderDetailUpdateActionParameter.OrderDeatil, OrderDetailUpdateParameterDTO>();
+
             CreateMap<RefundAddActionParameter, RefundAddParameterDTO>()
                 .ForMember(d => d.AskDate, o => o.MapFrom(s => DateTime.Parse(s.AskDate)))
                 .ForMember(d => d.ShipmentDate, o => o.MapFrom(s => DateTime.Parse(s.ShipmentDate)))

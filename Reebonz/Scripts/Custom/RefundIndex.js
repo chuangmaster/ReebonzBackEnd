@@ -133,69 +133,96 @@ var app = new Vue({
             var self = this;
             self.wantRefundForView = [];
             self.orderDetails.forEach(function (od) {
-                self.wantRefundForView.push({
-                    sku: od.orderDetailTemp.split('_')[0],
-                    price: od.price,
-                    amount: od.orderDetailTemp.split('_')[1]
-                });
+                if (parseInt(od.orderDetailTemp.split('_')[1]) > 0) {
+                    self.wantRefundForView.push({
+                        sku: od.orderDetailTemp.split('_')[0],
+                        price: od.price,
+                        amount: od.orderDetailTemp.split('_')[1]
+                    });
+                }
             });
-            $("#addOrderRefundModal").modal("hide");
-            $("#addRefundInfoModal").modal("show");
+            var biggerThanOne = self.wantRefundForView.filter(function (item) {
+                if (item.amount > 0) {
+                    return item;
+                }
+            });
+            if (biggerThanOne.length > 0) {
+
+                $("#addOrderRefundModal").modal("hide");
+                $("#addRefundInfoModal").modal("show");
+            } else {
+                alert('退貨數量不合理');
+            }
+
         },
         addOrderRefund: function () {
             var self = this;
-            var confirmMessage = '請確認退貨資料:\r\n';
-            confirmMessage += `訂單編號:${self.transactionID}\r\n`;
-
-            var wantRefund = [];
-            self.wantRefundForView.forEach(function (item) {
-                wantRefund.push({
-                    SKU: item.sku,
-                    Price: item.price,
-                    Amount: item.amount
-                });
-                confirmMessage += `${item.sku}-${item.amount}件-單筆退款金額NT${item.price}\r\n`;
-            });
-            confirmMessage += `取件人名稱:${self.senderName}\r\n`;
-            confirmMessage += `取件地址:${self.senderAddr}\r\n`;
-            confirmMessage += `取件人電話:${self.senderPhone}\r\n`;
-            confirmMessage += `取件時間:${formatDate(new Date(self.askDate))}\r\n`;
-            confirmMessage += `通知時間:${formatDate(new Date(self.shipmentDate))}\r\n`;
-            confirmMessage += `備註:${self.memo}\r\n`;
-            confirmMessage += `CaseNum:${self.caseNum}\r\n`;
-      
-            var y = confirm(confirmMessage);
-            if (!y) {
-                return;
+            var errorText = '';
+            if (self.senderAddr === '') {
+                errorText += '需要有取件地址';
             }
-            var obj = {
-                OrderID: self.orderID,
-                TransactionID: self.transactionID,
-                CaseNum: self.caseNum,
-                Memo: self.memo,
-                SenderName: self.senderName,
-                SenderAddr: self.senderAddr,
-                SenderPhone: self.senderPhone,
-                AskDate: formatDate(new Date(self.askDate)),
-                ShipmentDate: formatDate(new Date(self.shipmentDate)),
-                RefundDetails: wantRefund
-            };
+            if (self.senderName === '') {
+                errorText += '需要有取件人名稱';
+            }
+            if (self.senderPhone === '') {
+                errorText += '需要有取件人電話';
+            }
 
-            $.ajax({
-                url: '/api/v1/refund',
-                method: 'post',
-                data: obj,
-                success: function (result) {
-                    if (result.Message !== '') {
-                        alert(result.Message);
-                    }
-                },
-                error: function (jsXHR) {
-                    alert(jsXHR.responseJSON.Message);
+
+            if (errorText === '') {
+                var confirmMessage = '請確認退貨資料:\r\n';
+                confirmMessage += `訂單編號:${self.transactionID}\r\n`;
+
+                var wantRefund = [];
+                self.wantRefundForView.forEach(function (item) {
+                    wantRefund.push({
+                        SKU: item.sku,
+                        Price: item.price,
+                        Amount: item.amount
+                    });
+                    confirmMessage += `${item.sku}-${item.amount}件-單筆退款金額NT${item.price}\r\n`;
+                });
+                confirmMessage += `取件人名稱:${self.senderName}\r\n`;
+                confirmMessage += `取件地址:${self.senderAddr}\r\n`;
+                confirmMessage += `取件人電話:${self.senderPhone}\r\n`;
+                confirmMessage += `取件時間:${formatDate(new Date(self.askDate))}\r\n`;
+                confirmMessage += `通知時間:${formatDate(new Date(self.shipmentDate))}\r\n`;
+                confirmMessage += `備註:${self.memo}\r\n`;
+                confirmMessage += `CaseNum:${self.caseNum}\r\n`;
+
+                var y = confirm(confirmMessage);
+                if (y) {
+                    var obj = {
+                        OrderID: self.orderID,
+                        TransactionID: self.transactionID,
+                        CaseNum: self.caseNum,
+                        Memo: self.memo,
+                        SenderName: self.senderName,
+                        SenderAddr: self.senderAddr,
+                        SenderPhone: self.senderPhone,
+                        AskDate: formatDate(new Date(self.askDate)),
+                        ShipmentDate: formatDate(new Date(self.shipmentDate)),
+                        RefundDetails: wantRefund
+                    };
+
+                    $.ajax({
+                        url: '/api/v1/refund',
+                        method: 'post',
+                        data: obj,
+                        success: function (result) {
+                            if (result.Message !== '') {
+                                alert(result.Message);
+                                location.reload();
+                            }
+                        },
+                        error: function (jsXHR) {
+                            alert(jsXHR.responseJSON.Message);
+                        }
+                    });
                 }
-
-            });
-
+            } else {
+                alert(errorText);
+            }
         },
         validOrderDetail: function (orderDetails, sku, price, amount) {
             var errorMessage = '';

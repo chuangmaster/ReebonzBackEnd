@@ -190,6 +190,7 @@
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\API\OrderController.cs" />
+    <Compile Include="Controllers\API\OrderDetailController.cs" />
     <Compile Include="Controllers\API\RefundController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="Models\Output\Api\OrderOutputModel.cs" />
     <Compile Include="Models\Output\ResponseResult.cs" />
     <Compile Include="Models\Parameters\OrderAddActionParameter.cs" />
+    <Compile Include="Models\Parameters\OrderDetailUpdateActionParameter.cs" />
     <Compile Include="Models\Parameters\RefundAddActionParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

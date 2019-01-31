@@ -22,8 +22,7 @@ namespace Reebonz.Service.MapperProfile
             cfg.CreateMap<OrderDetailModel, OrderDetailDTO>();
             cfg.CreateMap<OrderAddParameterDTO, OrderAddRptParameter>();
             cfg.CreateMap<OrderDetailAddParameterDTO, OrderDetailAddRptParameter>();
-            
-
+            cfg.CreateMap<OrderDetailUpdateParameterDTO, OrderDetailUpdateRptParameter>();
         }).CreateMapper();
     }
 }

@@ -34,5 +34,12 @@ namespace Reebonz.Service.Interfaces
         /// <returns></returns>
         bool AddDetail(List<OrderDetailBaseAddParameterDTO> parameters);
 
+        /// <summary>
+        /// 更新訂單明細
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        bool UpdateDetail(List<OrderDetailUpdateParameterDTO> parameter);
+
     }
 }
